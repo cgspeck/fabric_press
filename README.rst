@@ -36,12 +36,29 @@ Installation
 3. Add this repo as a submodule to your project::
 
     git submodule add git@github.com:cgspeck/fabric_press.git fabric
-    git submodule update
 
 4. Create a fabric/local_settings.py, redefining env.roledefs and 
    env.stored_config. Look at lines 9 and 14 of misc.py for an example.
 
-5. Start using fabric to manage your WordPress instance.
+5. Add and commit your local_settings.py to your submodule checkout.
+
+6. Go up to your project directory and commit the fabric_press submodule.
+
+7. Start using fabric to manage your WordPress instance.
+
+Keeping Up to date
+==================
+
+Standard git instructions for updating a submodule, i.e.::
+
+    cd fabric
+    git checkout master
+    git pull
+    cd ..
+    git add fabric
+    git commit -m "Updated fabric_press"
+    git push
+
 
 Usage Examples
 ==============
