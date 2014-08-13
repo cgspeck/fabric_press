@@ -35,14 +35,19 @@ Installation
 
 3. Add this repo as a submodule to your project::
 
-    git submodule add git@github.com:cgspeck/fabric_press.git fabric
+    git submodule add git@github.com:cgspeck/fabric_press.git fabfile
 
-4. Create a fabric/local_settings.py, redefining env.roledefs and 
-   env.stored_config. Look at lines 9 and 14 of misc.py for an example.
+4. Create a ``fabfile/local_settings.py``, redefining ``env.roledefs`` and
+   ``env.stored_config``. Look at lines 9 and 14 of ``misc.py`` for an example.
 
-5. Add and commit your local_settings.py to your submodule checkout.
+5. Add and commit your ``local_settings.py`` to your submodule checkout.
 
-6. Go up to your project directory and commit the fabric_press submodule.
+6. Go up to your project directory and commit the ``fabric_press`` submodule::
+
+    cd ..
+    git add fabfile
+    git commit -m "Added fabric_press submodule"
+
 
 7. Start using fabric to manage your WordPress instance.
 
@@ -51,12 +56,11 @@ Keeping Up to date
 
 Standard git instructions for updating a submodule, i.e.::
 
-    cd fabric
+    cd fabfile
     git checkout master
     git pull
     cd ..
-    git add fabric
-    git commit -m "Updated fabric_press"
+    git commit -am "Updated fabric_press"
     git push
 
 
@@ -69,7 +73,7 @@ to run it, so that the local user is able to ssh to the remote machine.
 Grab files and database from dev::
 
     fab -R dev files.pull
-    fab -R dev database.pull
+    fab -R dev db.pull
 
 Then you would use git to review and changes commit any properly changed or
 additional file.
@@ -77,7 +81,7 @@ additional file.
 Likewise, grabbing files from production::
 
     fab -R prod files.pull
-    fab -R prod database.pull
+    fab -R prod db.pull
 
 **WARNING: This is simply an automation tool - do not attempt to push files or
 a database to a target unless you are intimately familiar with the process of
@@ -96,7 +100,7 @@ fields within it so that WordPress will function correctly on the target.
 Example pushing files to production::
 
     fab -R prod files.push
-    fab -R prod database.push
+    fab -R prod db.push
 
 
 License & Copyright
