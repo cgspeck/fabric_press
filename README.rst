@@ -2,7 +2,8 @@
 Fabric Press
 ============
 
-Fabric based management of WordPress installations on remote shared hosts.
+Fabric based management of `WordPress <https://wordpress.org/download/>`_
+installations on remote shared hosts.
 
 This allows a WordPress sysadmin to create a dev version of their site, give
 full access to a designer, and then syncronise the files and database to a
@@ -37,16 +38,26 @@ Installation
 
     git submodule add git@github.com:cgspeck/fabric_press.git fabfile
 
-4. Create a ``fabfile/local_settings.py``, redefining ``env.roledefs`` and
-   ``env.stored_config``. Look at lines 9 and 14 of ``misc.py`` for an example.
+4. Create a ``fabfile/local_settings.py``, importing ``fabric.api.env`` and
+   redefining ``env.roledefs`` and ``env.stored_config``::
 
-5. Add and commit your ``local_settings.py`` to your submodule checkout.
+    from fabric.api import env
+
+    env.roledefs = ...
+    env.stored_config = ...
+
+   Look at lines 9 and 14 of ``misc.py`` for an example.
+
+5. Add and commit your ``local_settings.py`` to your submodule checkout::
+
+    git add local_settings.py
+    git commit -m "Added local settings for my site"
 
 6. Go up to your project directory and commit the ``fabric_press`` submodule::
 
     cd ..
     git add fabfile
-    git commit -m "Added fabric_press submodule"
+    git commit -am "Added Fabric Press submodule :-)"
 
 
 7. Start using fabric to manage your WordPress instance.
@@ -70,7 +81,7 @@ Usage Examples
 This requires ssh keys to be set up for the user account under which you intend
 to run it, so that the local user is able to ssh to the remote machine.
 
-Grab files and database from dev::
+Backup/grab files and database from dev::
 
     fab -R dev files.pull
     fab -R dev db.pull
@@ -78,7 +89,7 @@ Grab files and database from dev::
 Then you would use git to review and changes commit any properly changed or
 additional file.
 
-Likewise, grabbing files from production::
+Likewise, grabbing files and database from production::
 
     fab -R prod files.pull
     fab -R prod db.pull
@@ -102,6 +113,65 @@ Example pushing files to production::
     fab -R prod files.push
     fab -R prod db.push
 
+
+Using it to transfer a WP Instance
+----------------------------------
+
+On your new/existing host of choice, create:
+
+1. a domain/subdomain;
+2. a new mysql database
+
+For the sake of this example, the old host will be ``dev`` and new will be
+``staging``. In your ``local_settings.py``, define two roles, new and old e.g::
+
+    from fabric.api import env
+
+
+    env.roledefs = {
+        'dev': ['user@example.local'],
+        'staging': ['user@example.com']
+    }
+
+    env.stored_config = {
+        'dev': {
+            'base_path': '/var/www/public_html/',
+            'db_port': 3306,
+            'db_user': 'user',
+            'db_pass': 'pass',
+            'db_name': 'wordpress',
+            'site_name': 'Development Site',
+            'site_path': 'example.local',
+            'set_maintenance_mode': False,
+            'debug_mode': True
+        },
+        'staging': {
+            'base_path': '/home/user/public_html/',
+            'db_port': 3306,
+            'db_user': 'user',
+            'db_pass': 'pass',
+            'db_name': 'name',
+            'site_name': 'Staging site',
+            'site_path': 'staging.example.com',
+            'set_maintenance_mode': True,
+            'debug_mode': True
+        }
+    }
+
+Then pull the database & files, and then push back to new host::
+
+    fab -R dev files.pull
+    fab -R dev database.pull
+    fab -R dev database.push
+    fab -R staging files.push
+
+Then rewrite ``wp-config.php`` on staging::
+
+    fab -R staging misc.write_config
+
+And update database on staging::
+
+    fab -R staging database.update
 
 License & Copyright
 ===================
