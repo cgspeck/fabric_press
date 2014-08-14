@@ -183,9 +183,9 @@ And update database on staging::
 
 License & Copyright
 ===================
-Copyright (c) 2014, Christopher Speck
-http://www.chrisspeck.com
-https://github.com/cgspeck
+Copyright (c) 2014,`Christopher Speck <http://www.chrisspeck.com>`_.
+
+Repo hosted on `Github <https://github.com/cgspeck>`_.
 
 This application is subject to the revised 3-clause BSD license, as set out in
 the LICENSE  file found in the top-level directory of this distribution. USE AT
