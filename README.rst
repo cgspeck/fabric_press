@@ -18,14 +18,16 @@ and versioning of changes to your site.
 I'd like to implement the following in the future (but no guarantees):
 
 * disable nominated accounts on production;
-* flip maintenance and debug modes on and off;
-* fix settings in wp-config.ini appropriate for target environment;
 * use uwsgi and a local mysql to serve a copy of site;
+* handle wordpress tables with a prefix other than ``wp_``
 
 Pull requests are welcome.
 
 Installation
 ============
+
+This is designed to be run within a Python 2.7 virtual environment. As at the
+time of writing, Fabric was not officially up to Python 3x.
 
 1. Create a folder on your local machine to host your WordPress project and
    initialise a git repo.
@@ -38,7 +40,11 @@ Installation
 
     git submodule add git@github.com:cgspeck/fabric_press.git fabfile
 
-4. Create a ``fabfile/local_settings.py``, importing ``fabric.api.env`` and
+4. Install the mysql-python-connector::
+
+    pip install mysql-connector-python --allow-external mysql-connector-python
+
+5. Create a ``fabfile/local_settings.py``, importing ``fabric.api.env`` and
    redefining ``env.roledefs`` and ``env.stored_config``::
 
     from fabric.api import env
@@ -48,19 +54,19 @@ Installation
 
    Look at lines 9 and 14 of ``misc.py`` for an example.
 
-5. Add and commit your ``local_settings.py`` to your submodule checkout::
+6. Add and commit your ``local_settings.py`` to your submodule checkout::
 
     git add local_settings.py
     git commit -m "Added local settings for my site"
 
-6. Go up to your project directory and commit the ``fabric_press`` submodule::
+7. Go up to your project directory and commit the ``fabric_press`` submodule::
 
     cd ..
     git add fabfile
     git commit -am "Added Fabric Press submodule :-)"
 
 
-7. Start using fabric to manage your WordPress instance.
+8. Start using fabric to manage your WordPress instance.
 
 Keeping Up to date
 ==================
@@ -98,21 +104,23 @@ Likewise, grabbing files and database from production::
 a database to a target unless you are intimately familiar with the process of
 manually moving WordPress from one server to another. This may require you to
 use other tools and knowledge (e.g. digging around MySQL) to restore 
-functionality of the site. Automatically fixing the database and wp-config.ini 
-after a push is not implemented and the author is unable to assist in any way
-should your site be rendered unusable following a push command.**
-
-*Note*: after pushing files you will have to check and update wp-config.ini
-so that it has the proper database settings for your target.
-
-*Note*: after pushing a database you will have to check and update various
-fields within it so that WordPress will function correctly on the target.
+functionality of the site. Automatically fixing the database and wp-config.ini
+is not guaranteed and the author is unable to assist in any way should your
+site be rendered unusable following a push command.**
 
 Example pushing files to production::
 
     fab -R prod files.push
     fab -R prod db.push
 
+Then updating production database and config::
+
+    fab -R prod files.write_config
+    fab -R prod db.update
+
+**NOTE: It is unable to update WordPress database if the tables do not start
+with the default prefix of ``wp_``, specifically, options table must be
+``wp_options`` within the database.**
 
 Using it to transfer a WP Instance
 ----------------------------------
@@ -167,7 +175,7 @@ Then pull the database & files, and then push back to new host::
 
 Then rewrite ``wp-config.php`` on staging::
 
-    fab -R staging misc.write_config
+    fab -R staging files.write_config
 
 And update database on staging::
 

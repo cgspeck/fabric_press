@@ -3,7 +3,7 @@ import os
 import pprint
 import StringIO
 
-from fabric.api import env, task
+from fabric.api import env, task, abort, put
 from fabric.contrib.project import rsync_project
 
 from util import Util
