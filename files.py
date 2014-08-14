@@ -83,7 +83,7 @@ def write_config():
 
     line_written = False
 
-    for line in in_fh.readline():
+    for line in in_fh.readlines():
         line_written = False
         for correction in corrections:
             if correction['pending']:
