@@ -104,7 +104,7 @@ Likewise, grabbing files and database from production::
 a database to a target unless you are intimately familiar with the process of
 manually moving WordPress from one server to another. This may require you to
 use other tools and knowledge (e.g. digging around MySQL) to restore 
-functionality of the site. Automatically fixing the database and wp-config.ini
+functionality of the site. Automatically fixing the database and wp-config.php
 is not guaranteed and the author is unable to assist in any way should your
 site be rendered unusable following a push command.**
 
