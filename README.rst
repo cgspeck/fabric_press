@@ -183,7 +183,7 @@ And update database on staging::
 
 License & Copyright
 ===================
-Copyright (c) 2014,`Christopher Speck <http://www.chrisspeck.com>`_.
+Copyright (c) 2014, `Christopher Speck <http://www.chrisspeck.com>`_.
 
 Repo hosted on `Github <https://github.com/cgspeck>`_.
 
