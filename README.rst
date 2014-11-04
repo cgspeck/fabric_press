@@ -56,7 +56,7 @@ time of writing, Fabric was not officially up to Python 3x.
 
 6. Add and commit your ``localsettings.py`` to your submodule checkout::
 
-    git add local_settings.py
+    git add localsettings.py
     git commit -m "Added local settings for my site"
 
 7. Go up to your project directory and commit the ``fabric_press`` submodule::
@@ -131,7 +131,7 @@ On your new/existing host of choice, create:
 2. a new mysql database
 
 For the sake of this example, the old host will be ``dev`` and new will be
-``staging``. In your ``local_settings.py``, define two roles, new and old e.g::
+``staging``. In your ``localsettings.py``, define two roles, new and old e.g::
 
     from fabric.api import env
 
