@@ -44,7 +44,7 @@ time of writing, Fabric was not officially up to Python 3x.
 
     pip install mysql-connector-python --allow-external mysql-connector-python
 
-5. Create a ``fabfile/local_settings.py``, importing ``fabric.api.env`` and
+5. Create a ``fabfile/localsettings.py``, importing ``fabric.api.env`` and
    redefining ``env.roledefs`` and ``env.stored_config``::
 
     from fabric.api import env
@@ -54,7 +54,7 @@ time of writing, Fabric was not officially up to Python 3x.
 
    Look at lines 9 and 14 of ``misc.py`` for an example.
 
-6. Add and commit your ``local_settings.py`` to your submodule checkout::
+6. Add and commit your ``localsettings.py`` to your submodule checkout::
 
     git add local_settings.py
     git commit -m "Added local settings for my site"

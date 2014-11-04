@@ -6,7 +6,7 @@ import db  # noqa
 import files  # noqa
 
 try:
-    import local_settings  # noqa
+    import localsettings  # noqa
 except ImportError, e:
     abort('You need to create a local_settings.py file and override '
           'env.roledefs and stored_config.'
