@@ -53,22 +53,22 @@ def write_config():
         {
             'startswith': "define('DB_NAME', ",
             'key': 'db_name',
-            'template': "define('DB_NAME', '{value}');"
+            'template': "define('DB_NAME', '{value}');\n"
         },
         {
             'startswith': "define('DB_USER', ",
             'key': 'db_user',
-            'template': "define('DB_USER', '{value}');"
+            'template': "define('DB_USER', '{value}');\n"
         },
         {
             'startswith': "define('DB_PASSWORD', ",
             'key': 'db_pass',
-            'template': "define('DB_PASSWORD', '{value}');"
+            'template': "define('DB_PASSWORD', '{value}');\n"
         },
         {
             'startswith': "define('WP_DEBUG', ",
             'key': 'debug_mode',
-            'template': "define('WP_DEBUG', '{value}');"
+            'template': "define('WP_DEBUG', '{value}');\n"
         }
     ]
 
