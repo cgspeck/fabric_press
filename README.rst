@@ -38,20 +38,20 @@ time of writing, Fabric was not officially up to Python 3x.
 
 3. Add this repo as a subtree to your project::
 
-   git remote add -f fabric_press git@github.com:cgspeck/fabric_press.git
-   git subtree add --prefix fabfile fabric_press master --squash
+    git remote add -f fabric_press git@github.com:cgspeck/fabric_press.git
+    git subtree add --prefix fabfile fabric_press master --squash
 
 4. Install the mysql-python-connector::
 
-   pip install mysql-connector-python --allow-external mysql-connector-python
+    pip install mysql-connector-python --allow-external mysql-connector-python
 
-5. Create a ``fabfile/localsettings.py``, importing ``fabric.api.env`` and
-   redefining ``env.roledefs`` and ``env.stored_config``::
+5. Create a ``fabfile/localsettings.py``, import ``fabric.api.env`` and
+   redefine ``env.roledefs`` and ``env.stored_config``::
 
-   from fabric.api import env
+    from fabric.api import env
 
-   env.roledefs = ...
-   env.stored_config = ...
+    env.roledefs = ...
+    env.stored_config = ...
 
    Look at lines 9 and 14 of ``misc.py`` for an example.
 
@@ -65,8 +65,8 @@ Keeping Up to date
 
 Standard git instructions for updating a subtree, i.e.::
 
-git fetch fabric_press master
-git subtree pull --prefix fabfile fabric_press master --squash
+ git fetch fabric_press master
+ git subtree pull --prefix fabfile fabric_press master --squash
 
 
 Usage Examples
@@ -183,8 +183,8 @@ To remedy this:
 
 2. Run the following to purge your repo of submodule::
 
-git submodule deinit fabfile
-git rm -rf fabfile
+     git submodule deinit fabfile
+     git rm -rf fabfile
 
 3. Follow instruction no 3 within the installation section.
 
