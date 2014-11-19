@@ -36,49 +36,37 @@ time of writing, Fabric was not officially up to Python 3x.
    request `939 <https://github.com/fabric/fabric/pull/939>`_ is merged you
    will be able to install Fabric direct from upstream.
 
-3. Add this repo as a submodule to your project::
+3. Add this repo as a subtree to your project::
 
-    git submodule add git@github.com:cgspeck/fabric_press.git fabfile
+   git remote add -f fabric_press git@github.com:cgspeck/fabric_press.git
+   git subtree add --prefix fabfile fabric_press master --squash
 
 4. Install the mysql-python-connector::
 
-    pip install mysql-connector-python --allow-external mysql-connector-python
+   pip install mysql-connector-python --allow-external mysql-connector-python
 
 5. Create a ``fabfile/localsettings.py``, importing ``fabric.api.env`` and
    redefining ``env.roledefs`` and ``env.stored_config``::
 
-    from fabric.api import env
+   from fabric.api import env
 
-    env.roledefs = ...
-    env.stored_config = ...
+   env.roledefs = ...
+   env.stored_config = ...
 
    Look at lines 9 and 14 of ``misc.py`` for an example.
 
-6. Add and commit your ``localsettings.py`` to your submodule checkout::
+6. Add and commit your ``localsettings.py``.
 
-    git add localsettings.py
-    git commit -m "Added local settings for my site"
+7. Start using fabric to manage your WordPress instance.
 
-7. Go up to your project directory and commit the ``fabric_press`` submodule::
-
-    cd ..
-    git add fabfile
-    git commit -am "Added Fabric Press submodule :-)"
-
-
-8. Start using fabric to manage your WordPress instance.
 
 Keeping Up to date
 ==================
 
-Standard git instructions for updating a submodule, i.e.::
+Standard git instructions for updating a subtree, i.e.::
 
-    cd fabfile
-    git checkout master
-    git pull
-    cd ..
-    git commit -am "Updated fabric_press"
-    git push
+git fetch fabric_press master
+git subtree pull --prefix fabfile fabric_press master --squash
 
 
 Usage Examples
@@ -180,6 +168,28 @@ Then rewrite ``wp-config.php`` on staging::
 And update database on staging::
 
     fab -R staging database.update
+
+
+Removing Submodules
+-------------------
+
+Previous version of this readme suggested using a submodule to refer to Fabric
+Press, but this is not the correct approach as the contents of the submodule
+was not actually pushed to the parent repo.
+
+To remedy this:
+
+1. Copy your localsettings.py somewhere safe out of the /fabfile directory.
+
+2. Run the following to purge your repo of submodule::
+
+git submodule deinit fabfile
+git rm -rf fabfile
+
+3. Follow instruction no 3 within the installation section.
+
+4. Copy your localsettings.py file back in place, stage, commit, push.
+
 
 License & Copyright
 ===================
