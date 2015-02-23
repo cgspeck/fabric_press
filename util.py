@@ -12,3 +12,7 @@ class Util():
                   .format(env.roles[0])
                   )
         env.config = env.stored_config[env['roles'][0]]
+
+    @staticmethod
+    def normalised_local_wp_path():
+        return os.path.join(env.project_home, 'wp/')

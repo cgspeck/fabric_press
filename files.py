@@ -17,15 +17,11 @@ def normalised_remote_path():
     return remote_dir
 
 
-def normalised_local_wp_path():
-    return os.path.join(env.project_home, 'wp/')
-
-
 @task
 def pull():
     Util.validate_role()
     rsync_project(remote_dir=normalised_remote_path(),
-                  local_dir=normalised_local_wp_path(),
+                  local_dir=Util.normalised_local_wp_path(),
                   upload=False
                   )
 
@@ -34,7 +30,7 @@ def pull():
 def push():
     Util.validate_role()
     rsync_project(remote_dir=normalised_remote_path(),
-                  local_dir=normalised_local_wp_path(),
+                  local_dir=Util.normalised_local_wp_path(),
                   upload=True
                   )
 
