@@ -75,6 +75,8 @@ def write_config():
 
 
     in_fh = StringIO.StringIO(original_fh.read())
+    original_fh.close()
+
     out_fh = StringIO.StringIO()
 
     line_written = False
@@ -102,6 +104,12 @@ def write_config():
         pprint.pprint(corrections)
         abort('')
 
-    put(out_fh, os.path.join(env.config['base_path'],'wp-config.php'))
+    if env['roles'] == ['local']:
+        # write the file back
+        with open(os.path.join(Util.normalised_local_wp_path(),'wp-config.php'), "w") as f:
+            f.write(out_fh.getvalue())
+    else:
+        # send the new config somehere if not local
+        put(out_fh, os.path.join(env.config['base_path'],'wp-config.php'))
 
     out_fh.close()

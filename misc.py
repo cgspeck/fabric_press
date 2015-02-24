@@ -1,17 +1,13 @@
 from __future__ import with_statement
 
 from fabric.api import env, abort, task
-from fabric.utils import puts
-
-from . import files, db
-from subprocess import Popen, PIPE
-from util import Util
 
 
 env.roledefs = {    # you can have whatever roles you like as long as it is defined like this
     'dev': ['devuser@host:22'],
     'staging': ['devuser@host:22'],
-    'prod': ['produser@host:22']
+    'prod': ['produser@host:22'],
+    'local': ['localhost']  # this is for the serve task
 }
 
 env.fab_server_port = 8080
@@ -54,7 +50,7 @@ env.stored_config = {
         'db_pass': 'wp_dev',
         'db_name': 'wp_dev',
         'site_name': 'Site Name',
-        'site_url': 'http://localhost:{0}'.format(env.fab_serve_task_port),
+        'site_url': 'http://localhost:{0}'.format(env.fab_server_port),
         'debug_mode': True
     }
 }
@@ -68,31 +64,3 @@ def ipdb():
     from pprint import pprint  # noqa
     from ipdb import set_trace
     set_trace()
-
-
-@task
-def serve():
-    '''
-    Serve the site from command line
-    '''
-    if 'local' not in env.stored_config:
-        abort('No local config')
-
-    env['roles'] = ['local']
-    puts("Writing new wp-config.php")
-    files.write_config()
-    puts("Pushing database dump to mysql")
-    db.push()
-    puts("Updating the database")
-    db.update()
-    puts("Starting PHP")
-    process = Popen(['php',
-                     '-S',
-                     'localhost:{0}'.format(env.fab_server_port),
-                     '-t',
-                     '{0}'.format(Util.normalised_local_wp_path())],
-                    'w',
-                    shell=True,
-                    stdin=PIPE
-    )
-    process.wait()
