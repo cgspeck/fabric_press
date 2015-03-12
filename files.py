@@ -64,7 +64,7 @@ def write_config():
         {
             'startswith': "define('WP_DEBUG', ",
             'key': 'debug_mode',
-            'template': "define('WP_DEBUG', '{value}');\n"
+            'template': "define('WP_DEBUG', {value});\n"
         }
     ]
 

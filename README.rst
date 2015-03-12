@@ -139,7 +139,7 @@ For the sake of this example, the old host will be ``dev`` and new will be
             'site_name': 'Development Site',
             'site_path': 'example.local',
             'set_maintenance_mode': False,
-            'debug_mode': True
+            'debug_mode': 'true'
         },
         'staging': {
             'base_path': '/home/user/public_html/',
@@ -150,7 +150,7 @@ For the sake of this example, the old host will be ``dev`` and new will be
             'site_name': 'Staging site',
             'site_path': 'staging.example.com',
             'set_maintenance_mode': True,
-            'debug_mode': True
+            'debug_mode': 'true'
         }
     }
 
